@@ -27,11 +27,11 @@ ShopinglyX is an online platform revolutionizing secondhand fashion discovery. O
 ![Screenshot 5](screenshots/screenshot5.jpeg)
 ![Screenshot 6](screenshots/screenshot6.jpeg)
 ![Screenshot 7](screenshots/screenshot7.jpeg)
-![Screenshot 8](screenshots/screenshot8.jpeg)
-![Screenshot 9](screenshots/screenshot9.jpeg)
-![Screenshot 10](screenshots/screenshot10.jpeg)
-![Screenshot 11](screenshots/screenshot11.jpeg)
-![Screenshot 12](screenshots/screenshot12.jpeg)
+![Screenshot 8](screenshots/screenshot8.png)
+![Screenshot 9](screenshots/screenshot9.png)
+![Screenshot 10](screenshots/screenshot10.png)
+![Screenshot 11](screenshots/screenshot11.png)
+![Screenshot 12](screenshots/screenshot12.png)
 
 
 ## 🤝 Contributing
