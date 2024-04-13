@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block style %}
+
+{% endblock style %}
+
+
+{% block main %}
+<div class="container mt-3">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            
+            <form action="" method ="post">
+                {% csrf_token %}
+              <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="first_name" placeholder="First Name" name="first_name" value = {{profile.user.first_name}}>
+              </div>
+              <div class="mb-3">
+                <label for="last_name" class="form-label">last Name</label>
+                <input type="text" class="form-control" id="last_name" placeholder="Last Name" name="last_name" value={{profile.user.last_name}}>
+              </div>
+              
+              <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+              <select name="gender" id="gender" class="form-control">
+                <option value="{{profile.gender}}">{{profile.gender}}</option>
+                <option value="{{profile.gender}}">select gender</option>
+                <option value="male">male</option>
+                <option value="female">female</option>
+                <option value="other">other</option>
+              </select>
+              </div>
+              <div class="mb-3">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail" readonly placeholder="youremail@example.com" name="email" value={{profile.user.email}}>
+              </div>
+              <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" class="form-control" id="phone" placeholder="Phone" name="phone" value={{profile.phone}}>
+              </div>
+              {% if request.user.is_seller %}
+              <div class="mb-3">
+                <label for="alt_phone" class="form-label">Altername Phone</label>
+                <input type="text" class="form-control" id="alt_phone" placeholder="Phone" name="alt_phone" value={{profile.alt_phone}}>
+              </div>
+              <div class="mb-3">
+                <label for="shop_name" class="form-label">Shop Name</label>
+                <input type="text" class="form-control" id="shop_name" placeholder="shop_name" name="shop_name" value={{profile.shop_name}}>
+              </div>
+              
+              <div class="mb-3">
+                <label for="gst_number" class="form-label">GST number</label>
+                <input type="text" class="form-control" id="gst_number" placeholder="gst_number" name="gst_number" value={{profile.gst_number}}>
+              </div>
+              <div class="mb-3">
+                <label for="pan_number" class="form-label">Pan number</label>
+                <input type="text" class="form-control" id="pan_number" placeholder="pan_number" name="pan_number" value={{profile.pan_number}}>
+              </div>
+              
+              
+              {% endif %}
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+            <div>
+              <h3>Manage Address</h3>
+              <a href="/accounts/add_address/" class="btn btn-info btn-sm d-block">Add address</a>
+              
+              <table class="m-2">
+                {% for address in addr  %}
+              <tr class="border border-primary m-2">
+                <th>{{address.address}}</th>
+                <td>
+                  <a href="/accounts/edit_address/{{address.id}}/" class="btn btn-outline-primary">Edit address</a>
+                  <a href="/accounts/delete_address/{{address.id}}/" class="btn btn-outline-danger">Delete address</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 border border-outline">
+        <div class="d-flex justify-content-center align-items-center container-md text-primary flex-column">
+
+            <div class="d-flex justify-content-center align-items-center container-md claymorphism flex-column gap-3 m-3 p-2">
+                <h3 class="mt-2">Change Email</h3>
+                <h5 class="mt-2 text-danger"><strong> Once you change the email you can not recover that later.</strong></h5>
+        
+                <form action="/accounts/change_email/" method="post" class="text-center">
+                    {% csrf_token %}
+                    <input type="email" name="new_email" id="new_email" value="{{user.email}}" class="form-control bg-none">
+                    <button type="submit" class="btn btn-primary m-3">Change Email</button>
+                </form>
+            </div>
+        
+            <div class="d-flex justify-content-center align-items-center container-md claymorphism flex-column gap-3 m-3 p-2">
+                <h3 class="mt-2">Change Password</h3>
+                <form action="/accounts/change_password/" method="post" class="text-center">
+                    {% csrf_token %}
+                    <input type="password" name="new_password" id="new_password" class="form-control mt-2"
+                        placeholder="Enter new Password">
+                    <input type="password" name="new_password_confirmation" id="new_password_confirmation"
+                        class="form-control mt-2" placeholder="Confirm new Password">
+                    <button type="submit" class="btn btn-primary m-3">Change Password</button>
+                </form>
+            </div>
+        
+            <div class="d-flex justify-content-center align-items-center container-md claymorphism flex-column gap-3 m-3 p-2">
+                <h3 class="mt-2 text-danger">Delete Account</h3>
+                <h5 class="mt-2 text-danger"><strong> Once you delete the account you delete data you can not recover that later.</strong></h5>
+                <form action="/accounts/delete_user/" method="post" class="text-center">
+                    {% csrf_token %}
+                    <input type="password" name="password" id="password" class="form-control mt-2" placeholder="Enter Password">
+                    <button type="submit" class="btn btn-danger m-3">Delete Account</button>
+                </form>
+            </div>
+        </div>
+        
+        
+    </div>
+  </div>
+
+{% endblock main %}
+
+
+{% block script %}
+
+{% endblock script %}

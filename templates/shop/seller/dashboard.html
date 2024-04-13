@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block style %}
+
+{% endblock style %}
+
+
+{% block main %}
+
+<section class="h-100 gradient-custom">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center my-4">
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">Dashboard</h5>
+          </div>
+
+          <div class="card-body">
+            <div class="seller-details">
+              {% if request.user.is_seller %}
+              <h5 class="mt-3">Seller Dashboard</h5>
+              
+              <div class="row mt-3">
+                <h3>Shop Name : {{user.shop_name}}</h3>
+              </div>
+              {% endif %}
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h6 class="card-title">Total Products</h6>
+                      <p>{{ total_products }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h6 class="card-title">Total Orders</h6>
+                      <p>{{ total_orders }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h6 class="card-title">Total Revenue</h6>
+                      <p>₹{{ total_revenue }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h6 class="card-title">Total Customers</h6>
+                      <p>{{ total_customers }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+
+
+
+
+
+                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                  <a class="btn btn-primary btn-sm me-1 mb-2" href="/accounts/profile/">
+                    <i class="fas fa-edit"></i></a>
+                  {% if user.is_seller %}
+                  
+                  <a class="btn btn-primary btn-sm me-1 mb-2" href="/shop/create_product/">
+                    <i class="fas fa-plus"></i></a>
+              
+                    {% endif %}
+                  <a class="btn btn-primary btn-sm me-1 mb-2" href="/shop/manage_products/">
+                    <i class="fas fa-eye "></i></a>
+                  <a class="btn btn-primary btn-sm me-1 mb-2" href="/shop/orders/">
+                    <i class="fas fa-shopping-cart"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock main %}
+
+
+{% block script %}
+
+
+{% endblock script %}

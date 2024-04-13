@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block style %}
+
+{% endblock style %}
+
+
+{% block main %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- <div class="col-md-6">
+            <img src="{{ product.image1.url }}" class="img-fluid" alt="{{ product.name }}">
+        </div> -->
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-5">
+                    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{{product.image1.url}} " class="d-block w-100 product-images"
+                                    alt="Product Image 1">
+                            </div>
+                            {% if product.image2 %}
+                            <div class="carousel-item">
+                                <img src="{{product.image2.url}}" class="d-block w-100 product-images"
+                                    alt="Product Image 2">
+                            </div>
+                            {% endif %}
+                            {% if product.image3 %}
+                            <div class="carousel-item">
+                                <img src="{{product.image3.url}}" class="d-block w-100 product-images"
+                                    alt="Product Image 2">
+                            </div>
+                            {% endif %}
+                            {% if product.image4 %}
+                            <div class="carousel-item">
+                                <img src="{{product.image4.url}}" class="d-block w-100 product-images"
+                                    alt="Product Image 2">
+                            </div>
+                            {% endif %}
+                            {% if product.image5 %}
+                            <div class="carousel-item">
+                                <img src="{{product.image5.url}}" class="d-block w-100 product-images"
+                                    alt="Product Image 2">
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-2">
+                                <img src="{{product.image1.url}}" class="img-fluid product-thumb active"
+                                    alt="Product Thumbnail 1">
+                            </div>
+                            {% if product.image2 %}
+                            <div class="col-2">
+                                <img src="{{product.image2.url}}" class="img-fluid product-thumb"
+                                    alt="Product Thumbnail 2">
+                            </div>
+                            {% endif %}
+                            {% if product.image3 %}
+                            <div class="col-2">
+                                <img src="{{product.image3.url}}" class="img-fluid product-thumb"
+                                    alt="Product Thumbnail 2">
+                            </div>
+                            {% endif %}
+                            {% if product.image4 %}
+                            <div class="col-2">
+                                <img src="{{product.image4.url}}" class="img-fluid product-thumb"
+                                    alt="Product Thumbnail 2">
+                            </div>
+                            {% endif %}
+                            {% if product.image5 %}
+                            <div class="col-2">
+                                <img src="{{product.image5.url}}" class="img-fluid product-thumb"
+                                    alt="Product Thumbnail 2">
+                            </div>
+                            {% endif %}
+                        </div>
+                        <!-- product crousel above -->   
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <h1>{{ product.name }}</h1>
+                    <p><strong>Brand:</strong> {{ product.brand }}</p>
+                    <p><strong>Price:</strong> ₹{{ product.price }}</p>
+                    <p><strong>Description:</strong> {{ product.description }}</p>
+                    <p><strong>Conditions:</strong> {{ product.conditions }}</p>
+                    <p><strong>Category:</strong>
+                        {% for category in product.category.all %}
+                        {{ category.name }} {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </p>
+                    <p><strong>Seller:</strong> {{ product.seller.shop_name }}</p>
+                    <form method="POST" action="/shop/add_to_cart/{{product.id}}/">
+                        <p><strong>Colors:</strong>
+                            <select name="color" id="color" class="form-control">
+                                {% for color in product.color.split %}
+                                <option value="{{ color }}">{{ color }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p><strong>Sizes:</strong> <select name="size" id="size" class="form-control">
+                                {% for size in product.size.split %}
+                                <option value="{{ size }}">{{ size }}</option>
+                                {% endfor %}
+                            </select></p>
+                        {% if request.user.is_seller %}
+                        <a class="btn btn-outline-info btn-sm"
+                            href="/shop/edit_product/{{product.id}}/">Edit</a>
+                        <a class="btn btn-outline-info btn-sm"
+                            href="/shop/delete_product/{{product.id}}/">Delete</a>
+                        {% endif %}
+                        {% if not request.user.is_seller and not request.user.is_superuser %}
+
+
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% endblock main %}
+
+
+            {% block script %}
+            <script>
+                // Handle thumbnail click event to switch images
+                const thumbs = document.querySelectorAll('.product-thumb');
+                thumbs.forEach(thumb => {
+                    thumb.addEventListener('click', () => {
+                        document.querySelector('.product-thumb.active').classList.remove('active');
+                        thumb.classList.add('active');
+                        const index = Array.from(thumbs).indexOf(thumb);
+                        document.querySelectorAll('.carousel-item').forEach(item => item.classList.remove('active'));
+                        document.querySelectorAll('.carousel-item')[index].classList.add('active');
+                    });
+                });
+            </script>
+
+            {% endblock script %}

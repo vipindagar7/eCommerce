@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block style %}
+
+{% endblock style %}
+
+
+{% block main %}
+<div class="container d-flex justify-content-center align-items-center flex-wrap">
+    {% if request.user.is_superuser %}
+    <div class="alert alert-warning" role="alert">
+        You are a admin. You can't view products.
+    </div>
+    {% elif request.user.is_seller %}
+    <div class="alert alert-warning" role="alert">
+        You are a seller. You can't view products.
+    </div>
+    
+    {% else %}
+    
+    {% for product in products  %}
+    
+    <a href="{% url 'view_product' product.id %}" class="text-decoration-none text-dark"><div class="card m-2" style="width: 224px;">
+        <img src="{{ product.image1.url }}" class="card-img-top" alt="{{ product.name }}" style="width: 200px; height: 200px;">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">Brand: {{ product.brand }}</p>
+            <p class="card-text">Price: ${{ product.price }}</p>
+        </div>
+    </div>
+</a>
+    {% endfor %}
+    {% endif %}
+    
+    </div>
+{% endblock main %}
+
+
+{% block script %}
+
+{% endblock script %}

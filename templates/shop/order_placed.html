@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block style %}
+
+{% endblock style %}
+
+
+{% block main %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="alert alert-success text-center" role="alert">
+          <h4 class="alert-heading">Your Order Has Been Placed Successfully!</h4>
+          <p>Thank you for your order. We've received it and are processing it now.</p>
+          <hr>
+          <p class="mb-0">
+            <a href="/shop/orders/" class="btn btn-outline-info btn-sm">View Order Details</a>
+          </p>
+        </div>
+      </div>
+    </div>
+ 
+{% endblock main %}
+
+
+{% block script %}
+
+{% endblock script %}

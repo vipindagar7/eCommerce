@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block style %}
+
+{% endblock style %}
+
+
+{% block main %}
+<div class="container mt-5">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}  {{ form.as_p }}  <button type="submit" class="btn btn-primary btn-md">Add Product</button>
+      </form>
+</div>
+
+{% endblock main %}
+
+
+{% block script %}
+<script>
+   function previewImage(input, previewId) {
+            var preview = document.getElementById(previewId);
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function previewVideo(input) {
+            var preview = document.getElementById('video-preview');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</script>
+
+{% endblock script %}

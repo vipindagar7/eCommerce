@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block style %}
+<style>
+  .brand-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .brand-image:hover {
+    transform: scale(1.1);
+  }
+</style>
+{% endblock style %}
+
+
+{% block main %}
+
+
+<div class="container">
+  <!-- START THE FEATURETTES -->
+
+  <hr class="featurette-divider">
+
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span>
+      </h2>
+      <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.
+      </p>
+    </div>
+    <div class="col-md-5">
+
+      <img src="https://dukaan.b-cdn.net/700x700/webp/media/e5c13260-ffb0-427b-a058-726d684d628e.png" alt="" style="width:300px;  border:2px solid black;">
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <div class="row featurette">
+    <div class="col-md-7 order-md-2">
+      <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
+      <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this
+        layout would work with some actual real-world content in place.</p>
+    </div>
+    <div class="col-md-5 order-md-1">
+      <img src="https://www.teez.in/cdn/shop/products/Google-Hoodie-1_5ac6e9da-ad0f-44de-922f-7ae7ffe15faa_grande.jpg?v=1577771362" alt="" style="width:300px; border:2px solid black;">
+
+
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+      <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended
+        to be actually read, simply here to give you a better view of what this would look like with some actual
+        content. Your content.</p>
+    </div>
+    <div class="col-md-5">
+      <img src="https://www.cdnensemble.xyz/pub/media/catalog/product/cache/391a5e1abf666a8c41861a6cd6227bf9/4/s/4ss-75-pink-mustard-1.jpg" alt="" style="max-width:80vw; height:500px; border:2px solid black;">
+
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <!-- /END THE FEATURETTES -->
+
+</div>
+</div>
+<div class="container">
+  <hr>
+  <h1 class="text-center">Shop</h1>
+  <hr>
+  <div class="d-flex justify-content-center">
+    {% for category in categories %}
+    <form method="GET" action="{% url 'search_products' %}" class="m-2">
+      <input type="hidden" value="{{category.id}}" name="category">
+      <button type="submit" class="btn btn-primary btn-sm form-control" style="width:fit-content;">{{category}}</button>
+    </form>
+    {% endfor %}
+  </div>
+  <hr>
+ 
+  <div class="container d-flex justify-content-center align-items-center flex-wrap">
+    {% if request.user.is_superuser %}
+    <div class="alert alert-warning" role="alert">
+      You are a admin. You can't view products.
+    </div>
+    {% elif request.user.is_seller %}
+    <div class="alert alert-warning" role="alert">
+      You are a seller. You can't view products.
+    </div>
+
+    {% else %}
+
+    {% for product in products %}
+
+    <a href="{% url 'view_product' product.id %}" class="text-decoration-none text-dark">
+      <div class="card m-2" style="width: 224px;">
+        <img src="{{ product.image1.url }}" class="card-img-top" alt="{{ product.name }}"
+          style="width: 200px; height: 200px;">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">Brand: {{ product.brand }}</p>
+          <p class="card-text">Price: ₹{{ product.price }}</p>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+    {% endif %}
+
+  </div>
+  <hr>
+  <div class="d-flex justify-content-center">
+    <h3>Sponsers</h3>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-around flex-wrap">
+    <img class="brand-image" src="{% static "/images/brand-1.png/" %}" alt="">
+    <img class="brand-image" src="{% static "/images/brand-2.png/" %}" alt="">
+    <img class="brand-image" src="{% static "/images/brand-3.png/" %}" alt="">
+    <img class="brand-image" src="{% static "/images/brand-4.png/" %}" alt="">
+    <img class="brand-image" src="{% static "/images/brand-5.png/" %}" alt="">
+    <img class="brand-image" src="{% static "/images/brand-6.png/" %}" alt="">
+  </div>
+</div>
+{% endblock main %}
+
+
+{% block script %}
+
+{% endblock script %}

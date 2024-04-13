@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShoppinglyX</title>
+  {% block style %}{% endblock style %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+  <div class="bg-dark text-white text-center" role="alert">
+    <strong>Free Shpping on order above ₹3000</strong>
+  </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <strong>
+          {% if request.user.is_superuser %}
+          Admin | ShoppinglyX
+          {% elif request.user.is_seller %}
+          Seller | ShoppinglyX
+          {% else %}
+          ShoppinglyX
+          {% endif %}
+        </strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser %}
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/shop/dashboard/">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/manage_users/">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop/manage_products/">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop/orders/">Orders</a>
+          </li>
+        </ul>
+        {% elif request.user.is_seller %}
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/shop/dashboard/">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop/manage_products/">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop/orders/">Orders</a>
+          </li>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Categories
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% for category in categories %}
+              <form method="GET" action="{% url 'search_products' %}" class="m-0">
+                <input type="hidden" value="{{category.id}}" name="category">
+                <button type="submit" class="form-control">{{category}}</button>
+              </form>
+              {% endfor %}
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop/">Products</a>
+          </li>
+        </ul>
+        <form method="GET" action="{% url 'search_products' %}">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search products" name="q" value="{{ request.GET.q }}">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+          </div>
+        </form>
+        <a href="/shop/cart/" class="nav-link">
+          <i class="fas fa-shopping-cart fa-lg text-dark"></i>
+        </a>
+        {% endif %}
+        {% endif %}
+
+        {% if request.user.is_authenticated %}
+
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle fa-lg text-dark"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+            <a class="dropdown-item" href="/accounts/profile/">Profile</a>
+            <a class="dropdown-item" href="/shop/orders">My Order</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/accounts/logout/">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a href="/accounts/login/" class="btn btn-outline-primary my-2 my-sm-0 mr-3">Login</a>
+        <a href="/accounts/signup/" class="btn btn-primary my-2 my-sm-0">Sign Up</a>
+
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-primary" role="alert">
+    {{message}}
+  </div>
+  {% endfor %}
+
+  {% endif %}
+  <main>
+    {% block main %}{% endblock main %}
+  </main>
+  <div class="b-example-divider"></div>
+
+  <div class="container">
+    <footer class="row row-cols-md-5 py-5 my-5 border-top">
+      <div class="col-md">
+        <a href="/" class="d-flex align-items-center mb-3 link-dark text-decoration-none">
+          <h1 class="text-dark">ShoppinglyX</h1>
+        </a>
+        <p class="text-muted">&copy; 2024</p>
+      </div>
+    
+      <div class="col-md"></div>
+    
+      <div class="col-md">
+        <h5>Contact</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted"> <i class="fas fa-map-marker-alt"></i> GITAM (deemed to be university)</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted"><i class="fas fa-envelope"></i> codewithvipin@gmail.com</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted"><i class="fas fa-phone"></i> +917988402117</a></li>
+        </ul>
+      </div>
+    
+      <div class="col-md">
+        <h5>Company</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2"><a href="/" class="nav-link p-0 text-muted">Home</a></li>
+          <li class="nav-item mb-2"><a href="/about/" class="nav-link p-0 text-muted">About Us</a></li>
+        </ul>
+      </div>
+    
+      <div class="col-md">
+        <h5>Useful links</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2"><a href="/" class="nav-link p-0 text-muted">Home</a></li>
+          <li class="nav-item mb-2"><a href="/shop/orders/" class="nav-link p-0 text-muted">Orders</a></li>
+          <li class="nav-item mb-2"><a href="/accounts/profile/" class="nav-link p-0 text-muted">My Profile</a></li>
+          <li class="nav-item mb-2"><a href="/about/" class="nav-link p-0 text-muted">About</a></li>
+        </ul>
+      </div>
+    </footer>
+    
+  </div>
+  {% block script %}{% endblock script %}
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+python=3.12.3
+django>=5.0,<5.1
+pillow>=9.0,<10.0
+whitenoise[brotli]>=6.0,<7.0
